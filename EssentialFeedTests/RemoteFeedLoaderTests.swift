@@ -7,6 +7,36 @@
 
 import XCTest
 
+class RemoteFeedLoader {
+    
+    let client:HTTPClient
+    
+    init(client: HTTPClient) {
+        self.client = client
+    }
+    
+    func load() {
+        //note: Move the test logic from RemoteFeedLoader to HTTPClient
+        client.get(from: URL(string: "https://a-url.com")!)
+    }
+}
+
+protocol HTTPClient {
+    func get(from url:URL)
+}
+
+
+class HTTPClientSpy: HTTPClient {
+    
+    var requestedURL:URL?
+    
+    func get(from url:URL) {
+        requestedURL = url
+    }
+}
+
+
+
 final class RemoteFeedLoaderTests: XCTestCase {
     
     override func setUpWithError() throws {
@@ -33,43 +63,11 @@ final class RemoteFeedLoaderTests: XCTestCase {
     }
     
     
-    class RemoteFeedLoader {
-        
-        func load() {
-            //note: Move the test logic from RemoteFeedLoader to HTTPClient
-            HTTPClient.shared.get(from: URL(string: "https://a-url.com")!)
-        }
-    }
-    
-    
-    class HTTPClient {
-
-        static var shared = HTTPClient()
-        
-        func get(from url:URL) {
-            //note: Move the test logic to a new subclass of the HTTPClient (e.g. HTTPClientSpy)
-            //requestedURL = url
-        }
-    }
-    
-    
-    class HTTPClientSpy: HTTPClient {
-        
-        var requestedURL:URL?
-        
-        override func get(from url:URL) {
-            requestedURL = url
-        }
-    }
-    
-    
     func test_init_doesNotRequestDataFromURL() {
         
         //note: some kind of client to handle network call or requesting data from url
         let client = HTTPClientSpy()
-        HTTPClient.shared = client
-        
-        _ = RemoteFeedLoader()
+        _ = RemoteFeedLoader(client: client)
         
         XCTAssertNil(client.requestedURL)
     }
@@ -78,8 +76,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         
         //Arrange
         let client = HTTPClientSpy()
-        HTTPClient.shared = client
-        let sut = RemoteFeedLoader()
+        let sut = RemoteFeedLoader(client: client)
         
         //note: 3 types of injection
         //1. constructor injection e.g. RemoteFeedLoader(client: XXX)
@@ -94,3 +91,4 @@ final class RemoteFeedLoaderTests: XCTestCase {
     }
 
 }
+
