@@ -43,7 +43,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         //note: some kind of client to handle network call or requesting data from url
         let (_, client) = makeSUT()
         
-        XCTAssertNil(client.requestedURL)
+        XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
     func test_load_requestsDataFromURL() {
@@ -58,10 +58,27 @@ final class RemoteFeedLoaderTests: XCTestCase {
         //3. method injection e.g. sut.load(client: XXX)
         
         //Act
+        //note: When testing objects collaborating, asserting the values passwd is not enough. We also need to ask "How many times was the method invoked?"
         sut.load()
         
         //Assert
-        XCTAssertEqual(client.requestedURL, url)
+        XCTAssertEqual(client.requestedURLs, [url])
+    }
+    
+    func test_loadTwice_requestsDataFromURL() {
+        
+        //Arrange
+        let url = URL(string: "https://a-given-url.com")!
+        let (sut, client) = makeSUT(url: url)
+        
+        //Act
+        //note: When testing objects collaborating, asserting the values passwd is not enough. We also need to ask "How many times was the method invoked?"
+        sut.load()
+        sut.load()
+        
+        //Assert
+        //note: assrt equality, counts at once
+        XCTAssertEqual(client.requestedURLs, [url, url])
     }
     
     // MARK: - Helpers
@@ -73,10 +90,11 @@ final class RemoteFeedLoaderTests: XCTestCase {
     
     class HTTPClientSpy: HTTPClient {
         
-        var requestedURL:URL?
+        var requestedURLs:[URL] = []
         
         func get(from url:URL) {
-            requestedURL = url
+            requestedURLs.append(url)
+            //requestedURL = url
         }
     }
 

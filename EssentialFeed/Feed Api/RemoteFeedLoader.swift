@@ -20,6 +20,7 @@ public final class RemoteFeedLoader {
     public func load() {
         //note: Move the test logic from RemoteFeedLoader to HTTPClient
         client.get(from: url)
+        //client.get(from: url) //note: mistakes like this happen all the time (especially when merging code) 
     }
 }
 
