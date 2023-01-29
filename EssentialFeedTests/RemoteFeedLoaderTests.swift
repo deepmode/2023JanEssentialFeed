@@ -7,8 +7,8 @@
 
 import XCTest
 
-//note: can do "@testable import EssentialFeed" (Benefit: we're free to change internal and private implmentation details without breaking the tests.
-//note: a better a apporach, when possible, is to test the module through the public interfaces, so we can test the expected behavior as a client of the module.
+//note: can do "@testable import EssentialFeed" (not a prefer way instead ...
+//note: a better a apporach, when possible, is to test the module through the public interfaces (via public class, public method, public protocol etc), so we can test the expected behavior as a client of the module. Another Benefit: we're free to change internal and private implmentation details without breaking the tests.
 import EssentialFeed
 
 
