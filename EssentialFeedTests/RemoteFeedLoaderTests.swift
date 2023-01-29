@@ -7,31 +7,9 @@
 
 import XCTest
 
-class RemoteFeedLoader {
-
-    let url:URL
-    let client:HTTPClient
-
-    init(url:URL, client: HTTPClient) {
-        self.url = url
-        self.client = client
-    }
-    
-    func load() {
-        //note: Move the test logic from RemoteFeedLoader to HTTPClient
-        client.get(from: url)
-    }
-}
-
-//note: The <HTTPClient> does not need to be a class. It is just a contract defining which external functionality the RemoteFeedLoader needs, so a protocol is a more suitable way to define it.
-//note: By creating a clean separation with protocols, we made the RemoteFeedLoader more flexible, open for extension and more testable.
-protocol HTTPClient {
-    func get(from url:URL)
-}
-
-
-
-
+//note: can do "@testable import EssentialFeed" (Benefit: we're free to change internal and private implmentation details without breaking the tests.
+//note: a better a apporach, when possible, is to test the module through the public interfaces, so we can test the expected behavior as a client of the module.
+import EssentialFeed
 
 
 final class RemoteFeedLoaderTests: XCTestCase {
