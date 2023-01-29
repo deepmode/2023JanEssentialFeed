@@ -37,7 +37,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         }
     }
     
-    
+    //note: test (test), init (the method), doesNotRequestDataFromURL (the behaviors we are tested)
     func test_init_doesNotRequestDataFromURL() {
         
         //note: some kind of client to handle network call or requesting data from url
@@ -46,7 +46,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         XCTAssertNil(client.requestedURL)
     }
     
-    func test_load_requestDataFromURL() {
+    func test_load_requestsDataFromURL() {
         
         //Arrange
         let url = URL(string: "https://a-given-url.com")!
