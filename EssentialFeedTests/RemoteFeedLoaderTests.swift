@@ -23,6 +23,8 @@ class RemoteFeedLoader {
     }
 }
 
+//note: The <HTTPClient> does not need to be a class. It is just a contract defining which external functionality the RemoteFeedLoader needs, so a protocol is a more suitable way to define it.
+//note: By creating a clean separation with protocols, we made the RemoteFeedLoader more flexible, open for extension and more testable.
 protocol HTTPClient {
     func get(from url:URL)
 }
