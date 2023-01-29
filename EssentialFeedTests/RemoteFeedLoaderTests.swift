@@ -35,19 +35,47 @@ final class RemoteFeedLoaderTests: XCTestCase {
     
     class RemoteFeedLoader {
         
+        func load() {
+            HTTPClient.shared.requestedURL = URL(string: "https://a-url.com")
+        }
     }
     
     class HTTPClient {
+        
         var requestedURL:URL?
+        
+        static let shared = HTTPClient()
+        
+        private init() {}
+        
     }
     
     
     func test_init_doesNotRequestDataFromURL() {
         
         //note: some kind of client to handle network call or requesting data from url
-        let client = HTTPClient()
+        let client = HTTPClient.shared
         _ = RemoteFeedLoader()
+        
         XCTAssertNil(client.requestedURL)
+    }
+    
+    func test_load_requestDataFromURL() {
+        
+        //Arrange
+        let client = HTTPClient.shared
+        let sut = RemoteFeedLoader()
+        
+        //note: 3 types of injection
+        //1. constructor injection e.g. RemoteFeedLoader(client: XXX)
+        //2. property injection e.g. sut.client = XXX
+        //3. method injection e.g. sut.load(client: XXX)
+        
+        //Act
+        sut.load()
+        
+        //Assert
+        XCTAssertNotNil(client.requestedURL)
     }
 
 }
