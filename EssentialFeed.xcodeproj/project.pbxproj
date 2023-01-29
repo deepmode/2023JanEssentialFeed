@@ -75,8 +75,6 @@
 			children = (
 				6B6F71B529868FAD0067B64D /* Feed Feature */,
 				6B6F719C29868D990067B64D /* EssentialFeed.h */,
-				6B6F71B129868E150067B64D /* FeedItem.swift */,
-				6B6F71B329868EE50067B64D /* FeedLoader.swift */,
 			);
 			path = EssentialFeed;
 			sourceTree = "<group>";
@@ -92,6 +90,8 @@
 		6B6F71B529868FAD0067B64D /* Feed Feature */ = {
 			isa = PBXGroup;
 			children = (
+				6B6F71B129868E150067B64D /* FeedItem.swift */,
+				6B6F71B329868EE50067B64D /* FeedLoader.swift */,
 			);
 			path = "Feed Feature";
 			sourceTree = "<group>";
