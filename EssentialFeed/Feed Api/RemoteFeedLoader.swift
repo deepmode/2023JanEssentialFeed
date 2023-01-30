@@ -7,6 +7,13 @@
 
 import Foundation
 
+//note: The <HTTPClient> does not need to be a class. It is just a contract defining which external functionality the RemoteFeedLoader needs, so a protocol is a more suitable way to define it.
+//note: By creating a clean separation with protocols, we made the RemoteFeedLoader more flexible, open for extension and more testable.
+public protocol HTTPClient {
+    func get(from url:URL)
+}
+
+
 final public class RemoteFeedLoader {
 
     private let url:URL
@@ -22,10 +29,4 @@ final public class RemoteFeedLoader {
         client.get(from: url)
         //client.get(from: url) //note: mistakes like this happen all the time (especially when merging code) 
     }
-}
-
-//note: The <HTTPClient> does not need to be a class. It is just a contract defining which external functionality the RemoteFeedLoader needs, so a protocol is a more suitable way to define it.
-//note: By creating a clean separation with protocols, we made the RemoteFeedLoader more flexible, open for extension and more testable.
-public protocol HTTPClient {
-    func get(from url:URL)
 }
