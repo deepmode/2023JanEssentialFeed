@@ -100,7 +100,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         
         let clientError = NSError(domain: "Test", code: 0)
         print("step 2: execute the completion block with given clientError")
-        client.capturedErrors[0](clientError)
+        client.completions[0](clientError)
         
         
         //note: Assert: Then we expect the captured load error to be a connectivity error.
@@ -120,7 +120,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         
         var requestedURLs:[URL] = []
 //        var error:Error?
-        var capturedErrors = [(Error) -> Void]()
+        var completions = [(Error) -> Void]()
         
         func get(from url: URL, completion: @escaping (Error) -> Void) {
             
@@ -129,7 +129,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
 //            }
             
             //note: capture the completion
-            capturedErrors.append(completion)
+            completions.append(completion)
             requestedURLs.append(url)
         }
     }
