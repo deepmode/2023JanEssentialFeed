@@ -28,7 +28,7 @@ final public class RemoteFeedLoader {
         self.client = client
     }
     
-    public func load(completion: @escaping (Error) -> Void = { _ in }) {
+    public func load(completion: @escaping (Error) -> Void) {
         //note: Move the test logic from RemoteFeedLoader to HTTPClient
         client.get(from: url) { error in
             //map the HTTPClient error into domain specific error (e.g. connectivity error)

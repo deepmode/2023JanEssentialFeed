@@ -59,7 +59,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         
         //Act
         //note: When testing objects collaborating, asserting the values passwd is not enough. We also need to ask "How many times was the method invoked?"
-        sut.load()
+        sut.load { _ in }
         
         //Assert
         XCTAssertEqual(client.requestedURLs, [url])
@@ -73,8 +73,8 @@ final class RemoteFeedLoaderTests: XCTestCase {
         
         //Act
         //note: When testing objects collaborating, asserting the values passwd is not enough. We also need to ask "How many times was the method invoked?"
-        sut.load()
-        sut.load()
+        sut.load { _ in }
+        sut.load { _ in }
         
         //Assert
         //note: assrt equality, counts at once
