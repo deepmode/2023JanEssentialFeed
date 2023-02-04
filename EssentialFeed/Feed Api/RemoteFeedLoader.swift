@@ -10,7 +10,7 @@ import Foundation
 //note: The <HTTPClient> does not need to be a class. It is just a contract defining which external functionality the RemoteFeedLoader needs, so a protocol is a more suitable way to define it.
 //note: By creating a clean separation with protocols, we made the RemoteFeedLoader more flexible, open for extension and more testable.
 public protocol HTTPClient {
-    func get(from url:URL, completion: @escaping (Error) -> Void)
+    func get(from url:URL, completion: @escaping (Error?, HTTPURLResponse?) -> Void)
 }
 
 
@@ -21,6 +21,7 @@ final public class RemoteFeedLoader {
     
     public enum Error: Swift.Error {
         case connectivity
+        case invalidData
     }
 
     public init(url:URL, client: HTTPClient) {
@@ -30,10 +31,15 @@ final public class RemoteFeedLoader {
     
     public func load(completion: @escaping (Error) -> Void) {
         //note: Move the test logic from RemoteFeedLoader to HTTPClient
-        client.get(from: url) { error in
+        client.get(from: url) { error, response in
             //map the HTTPClient error into domain specific error (e.g. connectivity error)
-            completion(.connectivity)
+            
+            if response != nil {
+                completion(.invalidData)
+            } else {
+                completion(.connectivity)
+            }
+            //completion(.connectivity) //note: failing test: checking how many times the completion is invoked are important.
         }
-        //client.get(from: url) //note: mistakes like this happen all the time (especially when merging code) 
     }
 }
