@@ -28,22 +28,29 @@ final public class RemoteFeedLoader {
         case connectivity
         case invalidData
     }
+    
+    public enum Result: Equatable {
+        case success(FeedItem)
+        case error(RemoteFeedLoader.Error)
+    }
 
     public init(url:URL, client: HTTPClient) {
         self.url = url
         self.client = client
     }
     
-    public func load(completion: @escaping (Error) -> Void) {
+    public func load(completion: @escaping (RemoteFeedLoader.Result) -> Void) {
         //note: Move the test logic from RemoteFeedLoader to HTTPClient
         client.get(from: url) { result in
             //map the HTTPClient error into domain specific error (e.g. connectivity error)
             
             switch result {
             case .failure(let error):
-                completion(.connectivity)
+                completion(.error(.connectivity))
+                //completion(.connectivity)
             case .success(let response):
-                completion(.invalidData)
+                completion(.error(.invalidData))
+                //completion(.invalidData)
             }
             
             //completion(.connectivity) //note: failing test: checking how many times the completion is invoked are important.
