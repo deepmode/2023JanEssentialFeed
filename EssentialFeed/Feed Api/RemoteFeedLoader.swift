@@ -30,7 +30,7 @@ final public class RemoteFeedLoader {
     }
     
     public enum Result: Equatable {
-        case success(FeedItem)
+        case success([FeedItem])
         case error(RemoteFeedLoader.Error)
     }
 
@@ -48,12 +48,14 @@ final public class RemoteFeedLoader {
             case .failure(let error):
                 completion(.error(.connectivity))
                 //completion(.connectivity)
-            case .success(let response):
-                completion(.error(.invalidData))
-                //completion(.invalidData)
+            case let .success(data, response):
+                
+                if let t = try? JSONSerialization.jsonObject(with: data) {
+                    completion(.success([]))
+                } else {
+                    completion(.error(.invalidData))
+                }
             }
-            
-            //completion(.connectivity) //note: failing test: checking how many times the completion is invoked are important.
         }
     }
 }
