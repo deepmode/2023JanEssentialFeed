@@ -132,6 +132,8 @@ final class RemoteFeedLoaderTests: XCTestCase {
         return (RemoteFeedLoader(url: url, client: client), client)
     }
     
+    
+    //note: Using result type (RemoteFeedLoader.Result) enable resuability for different potential results in the future
     private func expect(_ sut:RemoteFeedLoader, toCompleteWith result:RemoteFeedLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         
         //2. Act
