@@ -134,6 +134,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
                                   description: nil,
                                   location: nil,
                                   imageURL: URL(string:"http://a-url.com")!)
+        
         let item1JSON = [
             "id": item1.id.uuidString,
             "image": item1.imageURL.absoluteString
@@ -153,6 +154,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         ]
         
         
+        //note: create a json object to mock the server JSON response
         let itemsJson = ["items": [item1JSON, item2JSON]]
         
         expect(sut, toCompleteWith: .success([item1, item2]), when: {
