@@ -45,14 +45,18 @@ final public class RemoteFeedLoader {
             //map the HTTPClient error into domain specific error (e.g. connectivity error)
             
             switch result {
-            case .failure(let error):
-                completion(.error(.connectivity))
+            
             case let .success(data, response):
-                if let root =  try? JSONDecoder().decode(Root.self, from: data) {
+            
+                if response.statusCode == 200, let root =  try? JSONDecoder().decode(Root.self, from: data) {
                     completion(.success(root.items))
                 } else {
                     completion(.error(.invalidData))
                 }
+                
+            case .failure(let error):
+                completion(.error(.connectivity))
+                
             }
         }
     }
