@@ -86,7 +86,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         //note: Arrange: Given the sut and its HTTP client spy.
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompleteWith: .error(.connectivity), when: {
+        expect(sut, toCompleteWith: .failure(.connectivity), when: {
             let clientError = NSError(domain: "Test", code: 0)
             client.complete(with: clientError)
         })
@@ -98,7 +98,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         
         
         samples.enumerated().forEach { (index, code) in
-            expect(sut, toCompleteWith: .error(.invalidData), when: {
+            expect(sut, toCompleteWith: .failure(.invalidData), when: {
                 let json = makeItemsJSON([])
                 client.complete(withStatusCode: code, data: json, at: index)
             })
@@ -110,7 +110,7 @@ final class RemoteFeedLoaderTests: XCTestCase {
         //1. Arrange
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompleteWith: .error(.invalidData), when: {
+        expect(sut, toCompleteWith: .failure(.invalidData), when: {
             let jsonData = Data("Invalid json".utf8)
             client.complete(withStatusCode: 200, data: jsonData )
         })
